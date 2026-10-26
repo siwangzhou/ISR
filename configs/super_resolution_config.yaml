@@ -1,0 +1,20 @@
+conditioning:
+  method: ps
+  params:
+    scale: 0.3
+
+measurement:
+  operator:
+    name: super_resolution
+    in_shape: !!python/tuple [1, 3, 512, 512] # [1, 3, 256, 256]
+    scale_factor: 4
+
+fgps:
+  start_bound: 10
+  end_bound: 75
+  schedule: exponential
+
+  scale: 0.4
+  scale_start: 3.0
+  scale_end: 0.6
+  scale_schedule: linear

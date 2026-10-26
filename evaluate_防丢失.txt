@@ -1,0 +1,63 @@
+RealSRVal:
+    model:
+    stablesr_000117.ckpt
+    vqgan_cfw_00011.ckpt
+    dataset:
+    RealSRVal_crop128
+RealESRGAN：
+======================================================================================================
+                                                    CLIPIQA MUSIQ   niqe    psnr    lpips   ssim
+RealSRVal_realsr_v1(baseline)                       0.6007  63.825  5.7419  24.710  0.3067  0.7071
+RealSRVal_realsr_v2(0.3 DPS y_real A(x0))           0.4613  51.471  6.2203  26.930  0.3205  0.7395
+======================================================================================================
+decw 0.5
+RealSRVal_forwardA_DPS_v1(baseline)                 0.6395  68.426  5.8948  25.082  0.2689  0.7417
+RealSRVal_A_DPS_v2(0.3 DPS y_A A(x0))               0.5828  63.903  6.1381  28.249  0.2089  0.7928
+RealSRVal_A_DPS_v3(0.03 DPS y_A A(x0))              0.6386  67.737  5.8461  25.731  0.2555  0.7530
+RealSRVal_A_DPS_v4(0.01 DPS y_A A(x0))
+decw 0.0
+RealSRVal_A_DPS_decw0_v1(baseline)                  0.6439  68.530  5.9587  24.189  0.3004  0.6948
+RealSRVal_A_PSLD_decw0_v1(0.1 0.05)                 0.6572  64.365  6.8357  25.301  0.3584  0.6579
+RealSRVal_A_PSLD_decw0_v2(0.1 0.03)                 0.6623  64.596  6.9091  25.022  0.3642  0.6499
+======================================================================================================
+RealSRVal_A_PSLD_v3(0.1 1.0 PSLD y_A A(x0))         0.4867  57.632  6.2714  30.004  0.1926  0.8195
+RealSRVal_A_PSLD_v2(0.1 0.05 PSLD y_A A(x0))按上面的结果来看应该不行，因为系数越大psnr越高，clipiqa越低
+RealSRVal_A_PSLD_v1(0.1 0.03 PSLD y_A A(x0))        0.6556  67.092  5.8248  26.094  0.2803  0.7389
+后续尝试测一版64→256的
+
+Training:
+set WANDB_MODE=offline
+python main.py --train --base configs/stableSRNew/v2-finetune_text_T_512.yaml --gpus 1, --name experiments_train --scale_lr False
+======================================================================================================
+                                                    CLIPIQA MUSIQ   niqe    psnr    lpips   ssim
+RealSRVal_forwardA_DPS_v1(baseline)                 0.6395  68.426  5.8948  25.082  0.2689  0.7417
+RealSRVal_A_PSLD_v1(0.1 0.03 PSLD y_A A(x0))        0.6556  67.092  5.8248  26.094  0.2803  0.7389
+training：
+train_RealSRVal_A_v1(06)                            0.6271  66.206  5.8195  25.903  0.2768  0.7481
+train_RealSRVal_A_v2(05)                            0.6544  68.233  5.6231  25.224  0.2760  0.7425
+train_RealSRVal_A_v3(04)                            0.6510  68.209  5.7704  25.246  0.2811  0.7299
+train_RealSRVal_A_v4(03-v1)                         0.6298  67.063  5.4464  25.647  0.2589  0.7462
+train_RealSRVal_A_v5(03)                            0.6423  68.494  5.8247  24.674  0.2955  0.7174
+train_RealSRVal_A_v6(02)                            0.6213  65.432  5.9349  26.150  0.2697  0.7541
+train_RealSRVal_A_v7(01)                            0.6509  67.482  5.4223  25.180  0.2801  0.7337
+training+sampling:
+t_s_RealSRVal_A_v1(03-v1)                           0.6409  65.292  5.6661  26.814  0.2618  0.7524
+======================================================================================================
+尝试测试其他数据集，如果在多个数据集上都有效果是最好的
+DrealSRVal:
+======================================================================================================
+                                                    CLIPIQA MUSIQ   niqe    psnr    lpips   ssim
+DrealSRVal_forwardA_DPS_v1(baseline)
+sampling:
+DrealSRVal_A_PSLD_v1(0.1 0.03 PSLD y_A A(x0))
+training：
+train_DrealSRVal_A_v1(06)
+train_DrealSRVal_A_v2(05)
+train_DrealSRVal_A_v3(04)
+train_DrealSRVal_A_v4(03-v1)
+train_DrealSRVal_A_v5(03)
+train_DrealSRVal_A_v6(02)
+train_DrealSRVal_A_v7(01)
+training+sampling:
+t_s_DrealSRVal_A_v1(03-v1)
+======================================================================================================

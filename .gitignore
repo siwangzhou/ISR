@@ -1,0 +1,15 @@
+﻿*.ckpt
+*.pth
+*.pt
+*.safetensors
+*.zip
+weights/
+logs/
+experiment/
+outputs/
+data/
+test_img/
+__pycache__/
+*.pyc
+.idea/
+.vscode/
